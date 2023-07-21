@@ -41,6 +41,12 @@ function fetchData() {
             if (response.status == 200) {
                 if (typeof response.data == 'string') {
                     if (response.data.startsWith("ERROR")) {
+                        if (response.data == "ERROR: Invalid token.") {
+                            alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                            location.href = origin
+                            return
+                        }
+
                         alert("An error occurred in fetching question data. Please try again.")
                         console.log("Error response received; response: " + response.data)
                     } else {

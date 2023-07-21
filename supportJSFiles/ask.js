@@ -9,6 +9,7 @@ var submitted = false
 function ask() {
     if (submitted) {
         location.reload()
+        return
     } else if (!questionField.value || questionField.value == "") {
         alert("Please enter a question!")
         return
