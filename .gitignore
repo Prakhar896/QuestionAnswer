@@ -1,0 +1,4 @@
+.env
+virt/
+__pycache__/
+venev/
