@@ -27,7 +27,7 @@ def loginAccount():
 
     return "SUCCESS: Logged in; Token: {}".format(data["loggedInToken"])
 
-@app.route("/api/reqestQuestionData", methods=['POST'])
+@app.route("/api/requestQuestionData", methods=['POST'])
 def requestQuestionData():
     global data
 

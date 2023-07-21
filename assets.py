@@ -11,3 +11,11 @@ def copyrightJS():
 @app.route("/assets/indexJS")
 def indexJS():
     return fileContent("supportJSFiles/index.js", passAPIKey=True)
+
+@app.route("/assets/unansweredJS")
+def unansweredJS():
+    return fileContent("supportJSFiles/unanswered.js", passAPIKey=True)
+
+@app.route("/assets/answeredJS")
+def answeredJS():
+    return fileContent("supportJSFiles/answered.js", passAPIKey=True)

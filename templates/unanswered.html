@@ -4,20 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unanswered | NYP AI Q&A Server</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         body {
             text-align: center;
             margin-top: 20px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
+
+        .fancyButtons {
+            border: none;
+            color: white;
+            padding: 14px 18px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            margin: 4px 2px;
+            transition-duration: 0.5s;
+            cursor: pointer;
+            background-color: darkslategray;
+            border-radius: 10px;
+        }
+
+        .fancyButtons:hover {
+            background-color: #000000;
+            color: white;
+            stroke: green;
+            stroke-width: 3px;
+            stroke-dashoffset: 15px;
+        }
     </style>
 </head>
 <body>
     <h1>Unanswered</h1>
     <a href="answered"><p>View Answered</p></a>
+    <button onclick="toggleLiveRefresh()" id="liveRefreshToggleButton" class="fancyButtons">Stop Live Refresh</button>
+    <br>
     <br>
     <div id="questionsDiv">
         <p>No unanswered questions at the moment.</p>
     </div>
+
+    <script src="/assets/unansweredJS"></script>
 </body>
 </html>
