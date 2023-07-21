@@ -25,4 +25,4 @@ def loginAccount():
     data["loggedInToken"] = generateToken()
     saveToFile(data)
 
-    return "SUCCESS: Logged in; Token: {}".format(loggedInToken)
+    return "SUCCESS: Logged in; Token: {}".format(data["loggedInToken"])
