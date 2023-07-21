@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage - NYP AI Event Q&A</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         body {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 70px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
-        input[type=submit] {
+        .fancyButtons {
             border: none;
             color: white;
             padding: 14px 18px;
@@ -27,7 +28,7 @@
             border-radius: 10px;
         }
 
-        input[type=submit]:hover {
+        .fancyButtons:hover {
             background-color: #000000;
             color: white;
             stroke: green;
@@ -49,20 +50,22 @@
         input[type=password]:focus {
             border: 3px solid #555;
         }
+
+        #statusLabel {
+            visibility: hidden;
+        }
     </style>
 </head>
 
 <body>
     <img src="/assets/NYPAILogo" height="150px">
     <h1>Welcome to the NYP AI Q&A Server</h1>
+    <h2>Event Admin Login</h2>
     <br>
-    <h3>Event Admin Login</h3>
-    <form>
-        <label for="password">Password:</label><br><br>
-        <input type="password" name="password" id="passwordField" placeholder="Enter admin password here" autofocus
-            required><br><br>
-        <input type="submit" value="Login">
-    </form>
+    <h3 id="statusLabel">Processing...</h3>
+    <label for="password">Password:</label><br><br>
+    <input type="password" name="password" id="passwordField" placeholder="Enter admin password here" autofocus required><br><br>
+    <button class="fancyButtons" id="loginButton">Login</button>
     <br><br>
     <script src="/assets/copyright"></script>
     <script src="/assets/indexJS"></script>

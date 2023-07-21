@@ -10,4 +10,4 @@ def copyrightJS():
 
 @app.route("/assets/indexJS")
 def indexJS():
-    return fileContent("supportJSFiles/index.js")
+    return fileContent("supportJSFiles/index.js", passAPIKey=True)

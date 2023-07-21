@@ -1,4 +1,6 @@
 import os, sys, json, shutil, datetime, random
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def fileContent(fileName, passAPIKey=False):

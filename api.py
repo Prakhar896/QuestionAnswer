@@ -21,6 +21,7 @@ def loginAccount():
     if request.json["pass"] != os.environ["ADMIN_PASS"]:
         return "UERROR: Invalid password."
     
+    ## Success
     loggedInToken = generateToken()
 
     return "SUCCESS: Logged in; Token: {}".format(loggedInToken)
