@@ -34,6 +34,15 @@
             stroke-width: 3px;
             stroke-dashoffset: 15px;
         }
+
+        #questionsDiv {
+            text-align: left;
+            margin-left: 20px;
+        }
+
+        #noQuestions {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -42,8 +51,9 @@
     <button onclick="toggleLiveRefresh()" id="liveRefreshToggleButton" class="fancyButtons">Stop Live Refresh</button>
     <br>
     <br>
+    <br>
     <div id="questionsDiv">
-        <p>No unanswered questions at the moment.</p>
+        <p id="noQuestions">No unanswered questions at the moment.</p>
     </div>
 
     <script src="/assets/unansweredJS"></script>

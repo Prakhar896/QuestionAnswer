@@ -7,11 +7,20 @@ var questionData = null
 function renderData() {
     if (questionData == null) {
         return
+    } else if (Object.keys(questionData).length == 0) {
+        questionsDiv.innerHTML = '<p>No unanswered questions at the moment.</p>'
+        return
     }
 
     // create list
     const list = document.createElement("ul")
-    
+    for (var questionID in questionData) {
+        const item = document.createElement("li")
+        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})`
+        list.appendChild(item)
+    }
+
+    questionsDiv.innerHTML = list.outerHTML
 }
 
 function fetchData() {
@@ -40,6 +49,7 @@ function fetchData() {
             } else {
                 // Success case
                 questionData = response.data
+                renderData()
             }
         } else {
             alert("Unknown response received from server. Please try again.")
