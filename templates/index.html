@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,64 @@
     <style>
         body {
             text-align: center;
-            margin-top: 150px;
+            margin-top: 100px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        input[type=submit] {
+            border: none;
+            color: white;
+            padding: 14px 18px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            margin: 4px 2px;
+            transition-duration: 0.5s;
+            cursor: pointer;
+            background-color: darkslategray;
+            border-radius: 10px;
+        }
+
+        input[type=submit]:hover {
+            background-color: #000000;
+            color: white;
+            stroke: green;
+            stroke-width: 3px;
+            stroke-dashoffset: 15px;
+        }
+
+        input[type=password] {
+            width: 300px;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+        }
+
+        input[type=password]:focus {
+            border: 3px solid #555;
         }
     </style>
 </head>
+
 <body>
-    
+    <img src="/assets/NYPAILogo" height="150px">
+    <h1>Welcome to the NYP AI Q&A Server</h1>
+    <br>
+    <h3>Event Admin Login</h3>
+    <form>
+        <label for="password">Password:</label><br><br>
+        <input type="password" name="password" id="passwordField" placeholder="Enter admin password here" autofocus
+            required><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <br><br>
+    <script src="/assets/copyright"></script>
+    <script src="/assets/indexJS"></script>
 </body>
+
 </html>
