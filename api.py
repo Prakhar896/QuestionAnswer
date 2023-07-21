@@ -68,3 +68,38 @@ def requestQuestionData():
     
     ## Success
     return jsonify(responseSet)
+
+@app.route("/api/toggleQuestionStatus", methods=['POST'])
+def toggleQuestionStatus():
+    global data
+
+    ## Check headers
+    if 'Content-Type' not in request.headers:
+        return "ERROR: Content-Type header is not present."
+    if request.headers['Content-Type'] != 'application/json':
+        return "ERROR: Content-Type header is not application/json."
+    if 'Key' not in request.headers:
+        return "ERROR: Key header is not present."
+    if request.headers['Key'] != os.environ['API_KEY']:
+        return "ERROR: Key header is not valid."
+    
+
+    ## Check body
+    if 'token' not in request.json:
+        return "ERROR: Token not present in request body."
+    if request.json['token'] != data['loggedInToken']:
+        return "ERROR: Invalid token."
+    if 'questionID' not in request.json:
+        return "ERROR: Question ID not present in request body."
+    if request.json['questionID'] not in data['questions']:
+        return "ERROR: Invalid question ID."
+    if 'newStatus' not in request.json:
+        return "ERROR: New status not present in request body."
+    if request.json['newStatus'] not in ['unanswered', 'answered']:
+        return "ERROR: Invalid new status."
+    
+    ## Success
+    data['questions'][request.json['questionID']]['status'] = request.json['newStatus']
+    saveToFile(data)
+
+    return "SUCCESS: Question status updated."
