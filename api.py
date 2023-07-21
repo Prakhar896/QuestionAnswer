@@ -103,3 +103,35 @@ def toggleQuestionStatus():
     saveToFile(data)
 
     return "SUCCESS: Question status updated."
+
+@app.route("/api/askQuestion", methods=['POST'])
+def askQuestion():
+    global data
+
+    ## Check headers
+    if 'Content-Type' not in request.headers:
+        return "ERROR: Content-Type header is not present."
+    if request.headers['Content-Type'] != 'application/json':
+        return "ERROR: Content-Type header is not application/json."
+    if 'Key' not in request.headers:
+        return "ERROR: Key header is not present."
+    if request.headers['Key'] != os.environ['API_KEY']:
+        return "ERROR: Key header is not valid."
+    
+
+    ## Check body
+    if 'question' not in request.json:
+        return "ERROR: Question not present in request body."
+    if 'author' not in request.json:
+        return "ERROR: Author not present in request body."
+    
+    ## Success
+    questionID = generateQuestionID(thatIsNotIn=[x for x in data['questions']])
+    data['questions'][questionID] = {
+        'question': request.json['question'],
+        'author': request.json['author'],
+        'status': 'unanswered'
+    }
+    saveToFile(data)
+
+    return "SUCCESS: Question added."

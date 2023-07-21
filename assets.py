@@ -19,3 +19,7 @@ def unansweredJS():
 @app.route("/assets/answeredJS")
 def answeredJS():
     return fileContent("supportJSFiles/answered.js", passAPIKey=True)
+
+@app.route("/assets/askJS")
+def askJS():
+    return fileContent("supportJSFiles/ask.js", passAPIKey=True)

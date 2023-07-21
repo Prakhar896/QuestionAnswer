@@ -108,7 +108,7 @@ var liveRefreshID = setInterval(() => {
     console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} Fetching new batch...`)
 
     fetchData()
-}, 5000)
+}, 3000)
 
 function toggleLiveRefresh() {
     if (liveRefreshID == null) {
@@ -117,7 +117,7 @@ function toggleLiveRefresh() {
             console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} Fetching new batch...`)
 
             fetchData()
-        }, 5000)
+        }, 3000)
         document.getElementById("liveRefreshToggleButton").innerText = 'Stop Live Refresh'
     } else {
         clearInterval(liveRefreshID)

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask | NYP AI Q&A Server</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 20px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        #questionInput {
+            width: 50%;
+            height: 50px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: 1px solid black;
+            padding-left: 10px;
+        }
+
+        .fancyButtons {
+            background-color: #4CAF50;
+            border: #4CAF50 solid 1px;
+            color: white;
+            padding: 15px 32px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition-duration: 0.3s;
+        }
+
+        .fancyButtons:hover {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        #nameField {
+            width: 170px;
+            height: 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid black;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="/assets/NYPAILogo" height="150px">
+    <h1 id="heading">Ask a Question</h1>
+    <br>
+    <div id="mainContent">
+        <input type="text" id="questionInput" placeholder="Enter your question here..." autofocus>
+        <br>
+        <br>
+        <label for="nameField">Your name (optional):</label>
+        <input type="text" id="nameField" placeholder="Enter your name">
+        <br>
+        <br>
+        <br>
+    </div>
+    <button onclick="ask()" class="fancyButtons" id="askButton">Ask</button>
+    <br>
+    <br>
+    <script src="/assets/copyright"></script>
+    <script src="/assets/askJS"></script>
+</body>
+
+</html>

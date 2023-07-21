@@ -29,6 +29,10 @@ else:
 def homepage():
     return render_template("index.html")
 
+@app.route("/ask")
+def ask():
+    return render_template("ask.html")
+
 @app.route("/security/unauthorised")
 def unauthorised():
     return render_template("unauthorised.html")
