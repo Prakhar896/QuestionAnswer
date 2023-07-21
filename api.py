@@ -2,7 +2,7 @@ from main import *
 
 @app.route("/api/login", methods=["POST"])
 def loginAccount():
-    global loggedInToken
+    global data
 
     ## Check headers
     if "Content-Type" not in request.headers:
@@ -22,6 +22,7 @@ def loginAccount():
         return "UERROR: Invalid password."
     
     ## Success
-    loggedInToken = generateToken()
+    data["loggedInToken"] = generateToken()
+    saveToFile(data)
 
     return "SUCCESS: Logged in; Token: {}".format(loggedInToken)
