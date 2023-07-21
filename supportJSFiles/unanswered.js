@@ -16,7 +16,14 @@ function renderData() {
     const list = document.createElement("ul")
     for (var questionID in questionData) {
         const item = document.createElement("li")
-        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})`
+        item.id = questionID
+
+        const answeredButton = document.createElement('button')
+        answeredButton.innerText = 'Answer'
+        answeredButton.className = 'fancyButtons'
+        answeredButton.onclick = questionAnswered
+
+        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;<button id="${questionID}" class="fancyButtons" onclick="questionAnswered(this)">Answer</button>`
         list.appendChild(item)
     }
 
@@ -60,6 +67,10 @@ function fetchData() {
         alert("Failed to connect to server. Please try again.")
         console.log("Error in connecting to server; error: " + error)
     })
+}
+
+function questionAnswered(element) {
+    console.log(element.id)
 }
 
 fetchData()
