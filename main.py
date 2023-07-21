@@ -29,6 +29,17 @@ else:
 def homepage():
     return render_template("index.html")
 
+@app.route("/security/unauthorised")
+def unauthorised():
+    return render_template("unauthorised.html")
+
+@app.route("/security/error")
+def error():
+    if 'error' not in request.args:
+        return render_template('error.html', error=None)
+    else:
+        return render_template('error.html', error=request.args['error'])
+
 ## Import routes declared from services
 from assets import *
 

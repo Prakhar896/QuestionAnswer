@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Occurred | NYP AI Q&A Server</title>
+</head>
+<body>
+    <img src="/assets/NYPAILogo" height="150px">
+    <h1>An Error Occurred</h1>
+    {% with messages = get_flashed_messages() %}  
+        {% if messages %}  
+            {% for message in messages %}  
+                <h3>{{ message }}</h3>
+            {% endfor %}  
+        {% elif error != None and error != '' %}
+            <h3>{{ error }}</h3>
+        {% else %}
+            <h3>No error message was provided.</h3>
+        {% endif %}
+    {% endwith %}
+    <br>
+    <p>An error occurred in your request. See the message above for more information.</p>
+    <script src="/assets/copyright"></script>
+</body>
+</html>
