@@ -11,4 +11,9 @@ def unansweredPage(token):
 
 @app.route("/session/<token>/answered")
 def answeredPage(token):
-    return "WIP"
+    global data
+
+    if token != data["loggedInToken"]:
+        return redirect(url_for("unauthorised"))
+    
+    return render_template("answered.html")

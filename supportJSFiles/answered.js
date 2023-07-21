@@ -1,14 +1,14 @@
 const questionsDiv = document.getElementById("questionsDiv")
 
 const token = location.pathname.split("/")[2]
-const displayType = "unanswered"
+const displayType = "answered"
 var questionData = null
 
 function renderData() {
     if (questionData == null) {
         return
     } else if (Object.keys(questionData).length == 0) {
-        questionsDiv.innerHTML = '<p id="noQuestions">No unanswered questions at the moment.</p>'
+        questionsDiv.innerHTML = '<p id="noQuestions">No answered questions at the moment.</p>'
         return
     }
 
@@ -17,7 +17,7 @@ function renderData() {
     for (var questionID in questionData) {
         const item = document.createElement("li")
         item.id = questionID
-        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;<button id="${questionID}" class="fancyButtons" onclick="questionAnswered(this)">Answer</button>`
+        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;<button id="${questionID}" class="fancyButtons" onclick="questionUnanswered(this)">Unanswer</button>`
         list.appendChild(item)
     }
 
@@ -63,7 +63,7 @@ function fetchData() {
         })
 }
 
-function questionAnswered(element) {
+function questionUnanswered(element) {
     axios({
         method: 'post',
         url: `${origin}/api/toggleQuestionStatus`,
@@ -74,14 +74,14 @@ function questionAnswered(element) {
         data: {
             'token': token,
             'questionID': element.id,
-            'newStatus': 'answered'
+            'newStatus': 'unanswered'
         }
     })
         .then(response => {
             if (response.status == 200) {
                 if (!response.data.startsWith("ERROR")) {
                     if (response.data.startsWith("SUCCESS")) {
-                        alert("Question marked as answered!")
+                        alert("Question marked as unanswered!")
                         fetchData()
                     } else {
                         alert("Unknown response received from server. Please try again.")
@@ -89,7 +89,7 @@ function questionAnswered(element) {
                     }
                 } else {
                     alert("An error occurred. Please try again.")
-                    console.log("Error occurred in marking as answered; response: " + response.data)
+                    console.log("Error occurred in marking as unanswered; response: " + response.data)
                 }
             } else {
                 alert("An error occurred. Please try again.")
