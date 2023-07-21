@@ -7,7 +7,7 @@ def unansweredPage(token):
     if token != data["loggedInToken"]:
         return redirect(url_for("unauthorised"))
     
-    return render_template("unanswered.html")
+    return render_template("unanswered.html", token=token)
 
 @app.route("/session/<token>/answered")
 def answeredPage(token):
@@ -16,4 +16,4 @@ def answeredPage(token):
     if token != data["loggedInToken"]:
         return redirect(url_for("unauthorised"))
     
-    return render_template("answered.html")
+    return render_template("answered.html", token=token)

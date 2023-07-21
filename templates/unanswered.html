@@ -47,7 +47,7 @@
 </head>
 <body>
     <h1>Unanswered</h1>
-    <a href="answered"><p>View Answered</p></a>
+    <p><a href="answered">View Answered</a> · <a id="logoutLink" href="{{ url_for('logout', token=token) }}">Logout</a></p>
     <button onclick="toggleLiveRefresh()" id="liveRefreshToggleButton" class="fancyButtons">Stop Live Refresh</button>
     <br>
     <br>

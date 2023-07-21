@@ -7,6 +7,7 @@ load_dotenv()
 from models import *
 
 app = Flask(__name__)
+app.secret_key = os.environ["APP_SECRET_KEY"]
 CORS(app)
 
 data = {}
@@ -32,6 +33,19 @@ def homepage():
 @app.route("/ask")
 def ask():
     return render_template("ask.html")
+
+@app.route("/logout")
+def logout():
+    if 'token' not in request.args:
+        flash("Token not present in request.")
+        return redirect(url_for("error"))
+    if request.args['token'] != data['loggedInToken']:
+        flash("Invalid token.")
+        return redirect(url_for("error"))
+    
+    data['loggedInToken'] = None
+    saveToFile(data)
+    return redirect(url_for("homepage"))
 
 @app.route("/security/unauthorised")
 def unauthorised():
