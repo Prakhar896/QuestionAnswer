@@ -8,3 +8,7 @@ def unansweredPage(token):
         return redirect(url_for("unauthorised"))
     
     return render_template("unanswered.html")
+
+@app.route("/session/<token>/answered")
+def answeredPage(token):
+    return "WIP"

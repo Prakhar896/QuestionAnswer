@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Occurred | NYP AI Q&A Server</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 100px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <img src="/assets/NYPAILogo" height="150px">
     <h1>An Error Occurred</h1>
+    <br>
     {% with messages = get_flashed_messages() %}  
         {% if messages %}  
             {% for message in messages %}  

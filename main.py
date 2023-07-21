@@ -43,6 +43,8 @@ def error():
 ## Import routes declared from services
 from assets import *
 
+from session import *
+
 from api import *
 
 if __name__ == "__main__":

@@ -26,3 +26,45 @@ def loginAccount():
     saveToFile(data)
 
     return "SUCCESS: Logged in; Token: {}".format(data["loggedInToken"])
+
+@app.route("/api/reqestQuestionData", methods=['POST'])
+def requestQuestionData():
+    global data
+
+    ## Check headers
+    if "Content-Type" not in request.headers:
+        return "ERROR: Content-Type header is not present."
+    if request.headers["Content-Type"] != "application/json":
+        return "ERROR: Content-Type header is not application/json."
+    if "Key" not in request.headers:
+        return "ERROR: Key header is not present."
+    if request.headers["Key"] != os.environ["API_KEY"]:
+        return "ERROR: Key header is not valid."
+    
+
+    ## Check body
+    if "token" not in request.json:
+        return "ERROR: Token not present in request body."
+    if request.json["token"] != data["loggedInToken"]:
+        return "ERROR: Invalid token."
+    if 'filter' not in request.json:
+        return "ERROR: Filter not present in request body."
+    if request.json["filter"] not in ["all", "unanswered", "answered"]:
+        return "ERROR: Invalid filter."
+    
+    filter = request.json['filter']
+
+    ## Generate response set
+    responseSet = {}
+    for questionID in data["questions"]:
+        if filter == "all":
+            responseSet[questionID] = data["questions"][questionID]
+        elif filter == "unanswered":
+            if data["questions"][questionID]["status"] == "unanswered":
+                responseSet[questionID] = data["questions"][questionID]
+        elif filter == "answered":
+            if data["questions"][questionID]["status"] == "answered":
+                responseSet[questionID] = data["questions"][questionID]
+    
+    ## Success
+    return jsonify(responseSet)
