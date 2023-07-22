@@ -153,6 +153,49 @@ function deleteQuestion(element) {
         })
 }
 
+function deleteAll() {
+    if (Object.keys(questionData).length == 0) {
+        alert("There are no unanswered questions to delete.")
+        return
+    }
+
+    axios({
+        method: 'post',
+        url: `${origin}/api/deleteQuestion`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Key': "\{{ API_KEY }}"
+        },
+        data: {
+            'token': token,
+            'bundleType': displayType
+        }
+    })
+        .then(response => {
+            if (response.status == 200) {
+                if (!response.data.startsWith("ERROR")) {
+                    if (response.data.startsWith("SUCCESS")) {
+                        alert("All unanswered questions deleted!")
+                        fetchData()
+                    } else {
+                        alert("Something went wrong. Please try again.")
+                        console.log(`Unknown response received from servers in deleting all unanswered questions; response: ${response.data}`)
+                    }
+                } else {
+                    alert("An error occurred in deleting all unanswered questions. Please try again.")
+                    console.log(`Error in deleting all unanswered questions; response: ${response.data}`)
+                }
+            } else {
+                alert("Something went wrong. Please try again.")
+                console.log(`Non-200 status code response received from server in deleting all unanswered questions; response: ${response.data}`)
+            }
+        })
+        .catch(error => {
+            alert("Failed to connect to delete all unanswered questions. Please try again.")
+            console.log(`Error in connecting to servers to delete all unanswered questions; error: ${error}`)
+        })
+}
+
 function refresh() {
     const date = new Date()
     console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} Fetching new batch...`)
