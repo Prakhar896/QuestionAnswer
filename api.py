@@ -135,3 +135,50 @@ def askQuestion():
     saveToFile(data)
 
     return "SUCCESS: Question added."
+
+@app.route('/api/deleteQuestion', methods=['POST'])
+def deleteQuestion():
+    global data
+
+    ## Check headers
+    if 'Content-Type' not in request.headers:
+        return "ERROR: Content-Type header is not present."
+    if request.headers['Content-Type'] != 'application/json':
+        return "ERROR: Content-Type header is not application/json."
+    if 'Key' not in request.headers:
+        return "ERROR: Key header is not present."
+    if request.headers['Key'] != os.environ['API_KEY']:
+        return "ERROR: Key header is not valid."
+    
+
+    ## Check body
+    if 'token' not in request.json:
+        return "ERROR: Token not present in request body."
+    if request.json['token'] != data['loggedInToken']:
+        return "ERROR: Invalid token."
+    if 'questionID' not in request.json:
+        if 'bundleType' not in request.json:
+            return "ERROR: Invalid question/question bundle identifiers provided for deletion."
+        if request.json['bundleType'] not in ['all', 'unanswered', 'answered']:
+            return "ERROR: Invalid question bundle type."
+    if request.json['questionID'] not in data['questions']:
+        return "ERROR: Invalid question ID."
+    
+    ## Success
+    if 'questionID' in request.json:
+        del data['questions'][request.json['questionID']]
+    else:
+        if request.json['bundleType'] == 'all':
+            data['questions'] = {}
+        elif request.json['bundleType'] == 'unanswered':
+            for questionID in data['questions']:
+                if data['questions'][questionID]['status'] == 'unanswered':
+                    del data['questions'][questionID]
+        elif request.json['bundleType'] == 'answered':
+            for questionID in data['questions']:
+                if data['questions'][questionID]['status'] == 'answered':
+                    del data['questions'][questionID]
+
+    saveToFile(data)
+
+    return "SUCCESS: Question or question bundle deleted."

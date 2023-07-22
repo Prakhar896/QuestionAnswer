@@ -17,7 +17,9 @@ function renderData() {
     for (var questionID in questionData) {
         const item = document.createElement("li")
         item.id = questionID
-        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;<button id="${questionID}" class="fancyButtons" onclick="questionAnswered(this)">Answer</button>`
+        const unansweredButtonHTML = `<button id="unanswer${questionID}" class="fancyButtons" onclick="questionAnswered(this)">Answer</button>`
+        const deleteButtonHTML = `<button id="delete${questionID}" class="fancyButtons" onclick="deleteQuestion(this)">Delete</button>`
+        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;${unansweredButtonHTML}&nbsp;&nbsp;&nbsp;${deleteButtonHTML}`
         list.appendChild(item)
     }
 
@@ -79,7 +81,7 @@ function questionAnswered(element) {
         },
         data: {
             'token': token,
-            'questionID': element.id,
+            'questionID': element.id.substring("unanswer".length),
             'newStatus': 'answered'
         }
     })
@@ -106,6 +108,10 @@ function questionAnswered(element) {
             alert("Failed to connect to servers. Please try again.")
             console.log("Error occurred in connecting to server; error: " + error)
         })
+}
+
+function deleteQuestion(element) {
+    console.log(element.id.substring("unanswer".length))
 }
 
 fetchData()
