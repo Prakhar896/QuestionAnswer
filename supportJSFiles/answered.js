@@ -17,7 +17,9 @@ function renderData() {
     for (var questionID in questionData) {
         const item = document.createElement("li")
         item.id = questionID
-        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;<button id="${questionID}" class="fancyButtons" onclick="questionUnanswered(this)">Unanswer</button>`
+        const unanswerButtonHTML = `<button id="unanswer${questionID}" class="fancyButtons" onclick="questionUnanswered(this)">Unanswer</button>`
+        const deleteButtonHTML = `<button id="delete${questionID}" class="fancyButtons" onclick="deleteQuestion(this)">Delete</button>`
+        item.innerHTML = `<strong>${questionData[questionID]['question']}</strong> by ${questionData[questionID]['author']} (ID: ${questionID})&nbsp;&nbsp;&nbsp;${unanswerButtonHTML}&nbsp;&nbsp;&nbsp;${deleteButtonHTML}`
         list.appendChild(item)
     }
 
@@ -79,7 +81,7 @@ function questionUnanswered(element) {
         },
         data: {
             'token': token,
-            'questionID': element.id,
+            'questionID': element.id.substring("unanswer".length),
             'newStatus': 'unanswered'
         }
     })
@@ -108,22 +110,62 @@ function questionUnanswered(element) {
         })
 }
 
-fetchData()
-var liveRefreshID = setInterval(() => {
+function deleteQuestion(element) {
+    const questionID = element.id.substring("delete".length)
+    if (!confirm(`Are you sure you would like to delete the question with ID ${questionID}?`)) {
+        return
+    }
+
+    axios({
+        method: 'post',
+        url: `${origin}/api/deleteQuestion`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Key': "\{{ API_KEY }}"
+        },
+        data: {
+            'token': token,
+            'questionID': questionID
+        }
+    })
+        .then(response => {
+            if (response.status == 200) {
+                if (!response.data.startsWith("ERROR")) {
+                    if (response.data.startsWith("SUCCESS")) {
+                        alert("Question deleted!")
+                        fetchData()
+                    } else {
+                        alert("Something went wrong. Please try again.")
+                        console.log(`Unknown response received from servers in deleting question with ID ${questionID}; response: ${response.data}`)
+                    }
+                } else {
+                    alert("An error occurred in deleting the question. Please try again.")
+                    console.log(`Error in deleting question with ID ${questionID}; response: ${response.data}`)
+                }
+            } else {
+                alert("Something went wrong. Please try again.")
+                console.log(`Non-200 status code response received from server in deleting question with ID ${questionID}; response: ${response.data}`)
+            }
+        })
+        .catch(error => {
+            alert("Failed to connect to delete the question. Please try again.")
+            console.log(`Error in connecting to servers to delete question with ID ${questionID}; error: ${error}`)
+        })
+}
+
+function refresh() {
     const date = new Date()
     console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} Fetching new batch...`)
 
     fetchData()
-}, 3000)
+}
+
+fetchData()
+var liveRefreshID = setInterval(refresh, 3000)
 
 function toggleLiveRefresh() {
     if (liveRefreshID == null) {
-        liveRefreshID = setInterval(() => {
-            const date = new Date()
-            console.log(`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} Fetching new batch...`)
-
-            fetchData()
-        }, 3000)
+        liveRefreshID = setInterval(refresh, 3000)
         document.getElementById("liveRefreshToggleButton").innerText = 'Stop Live Refresh'
     } else {
         clearInterval(liveRefreshID)
