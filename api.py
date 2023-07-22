@@ -56,15 +56,15 @@ def requestQuestionData():
 
     ## Generate response set
     responseSet = {}
-    for questionID in data["questions"]:
+    for questionID in copy.deepcopy(data["questions"]):
         if filter == "all":
-            responseSet[questionID] = data["questions"][questionID]
+            responseSet[questionID] = copy.deepcopy(data["questions"][questionID])
         elif filter == "unanswered":
             if data["questions"][questionID]["status"] == "unanswered":
-                responseSet[questionID] = data["questions"][questionID]
+                responseSet[questionID] = copy.deepcopy(data["questions"][questionID])
         elif filter == "answered":
             if data["questions"][questionID]["status"] == "answered":
-                responseSet[questionID] = data["questions"][questionID]
+                responseSet[questionID] = copy.deepcopy(data["questions"][questionID])
     
     ## Success
     return jsonify(responseSet)
@@ -161,7 +161,7 @@ def deleteQuestion():
             return "ERROR: Invalid question/question bundle identifiers provided for deletion."
         if request.json['bundleType'] not in ['all', 'unanswered', 'answered']:
             return "ERROR: Invalid question bundle type."
-    if request.json['questionID'] not in data['questions']:
+    elif request.json['questionID'] not in data['questions']:
         return "ERROR: Invalid question ID."
     
     ## Success
@@ -171,11 +171,11 @@ def deleteQuestion():
         if request.json['bundleType'] == 'all':
             data['questions'] = {}
         elif request.json['bundleType'] == 'unanswered':
-            for questionID in data['questions']:
+            for questionID in copy.deepcopy(data['questions']):
                 if data['questions'][questionID]['status'] == 'unanswered':
                     del data['questions'][questionID]
         elif request.json['bundleType'] == 'answered':
-            for questionID in data['questions']:
+            for questionID in copy.deepcopy(data['questions']):
                 if data['questions'][questionID]['status'] == 'answered':
                     del data['questions'][questionID]
 
