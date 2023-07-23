@@ -81,6 +81,12 @@ function refreshData(fromSessionToggleAction = false) {
 }
 
 function toggleSessionStatus() {
+    if (sessionIsActive) {
+        if (!confirm("Are you sure you want to de-activate the Q&A session? This will prevent any audience members from using the ask page to ask questions.")) { return }
+    } else {
+        if (!confirm("Are you sure you want to activate the Q&A session? This will allow audience members to use the ask page to ask questions.")) { return }
+    }
+
     const newStatus = sessionIsActive ? 'inactive' : 'active'
     statusLabel.innerText = ((newStatus == 'active') ? "Activating..." : "De-activating...")
     statusLabel.style.visibility = 'visible'
