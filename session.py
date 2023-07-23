@@ -25,4 +25,11 @@ def adminPage(token):
     if token != data["loggedInToken"]:
         return redirect(url_for("unauthorised"))
     
-    return render_template("admin.html", token=token)
+    return render_template(
+        "admin.html", 
+        token=token, 
+        sessionActive=data["session"]["active"], 
+        sessionActivationDatetime=data["session"]["activationDatetime"], 
+        numAnswered=len([x for x in data["questions"] if data["questions"][x]["status"] == "answered"]), 
+        numUnanswered=len([x for x in data["questions"] if data["questions"][x]["status"] == "unanswered"])
+        )

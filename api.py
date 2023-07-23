@@ -27,41 +27,6 @@ def loginAccount():
 
     return "SUCCESS: Logged in; Token: {}".format(data["loggedInToken"])
 
-@app.route("/api/toggleQuestionAnswerSession", methods=['POST'])
-def toggleQuestionAnswerSession():
-    global data
-
-    ## Check headers
-    if "Content-Type" not in request.headers:
-        return "ERROR: Content-Type header is not present."
-    if request.headers["Content-Type"] != "application/json":
-        return "ERROR: Content-Type header is not application/json."
-    if "Key" not in request.headers:
-        return "ERROR: Key header is not present."
-    if request.headers["Key"] != os.environ["API_KEY"]:
-        return "ERROR: Key header is not valid."
-    
-    ## Check body
-    if "token" not in request.json:
-        return "ERROR: Token not present in request body."
-    if "newStatus" not in request.json:
-        return "ERROR: New status not present in request body."
-    if request.json["newStatus"] not in ["active", "inactive"]:
-        return "ERROR: Invalid new status."
-    if request.json["newStatus"] == "active" and data["session"]["active"]:
-        return "ERROR: Session is already active."
-    if request.json["newStatus"] == "inactive" and not data["session"]["active"]:
-        return "ERROR: Session is already inactive."
-    
-    ## Success
-    newStatus = request.json["newStatus"] == "active"
-    data["session"]["active"] = newStatus
-    if newStatus:
-        data["session"]["activationDatetime"] = datetime.datetime.now().strftime(Universal.datetimeFormat)
-    saveToFile(data)
-
-    return "SUCCESS: Q&A session status updated."
-
 @app.route("/api/requestQuestionData", methods=['POST'])
 def requestQuestionData():
     global data
@@ -222,6 +187,41 @@ def deleteQuestion():
 
     return "SUCCESS: Question or question bundle deleted."
 
+@app.route("/api/toggleQuestionAnswerSession", methods=['POST'])
+def toggleQuestionAnswerSession():
+    global data
+
+    ## Check headers
+    if "Content-Type" not in request.headers:
+        return "ERROR: Content-Type header is not present."
+    if request.headers["Content-Type"] != "application/json":
+        return "ERROR: Content-Type header is not application/json."
+    if "Key" not in request.headers:
+        return "ERROR: Key header is not present."
+    if request.headers["Key"] != os.environ["API_KEY"]:
+        return "ERROR: Key header is not valid."
+    
+    ## Check body
+    if "token" not in request.json:
+        return "ERROR: Token not present in request body."
+    if "newStatus" not in request.json:
+        return "ERROR: New status not present in request body."
+    if request.json["newStatus"] not in ["active", "inactive"]:
+        return "ERROR: Invalid new status."
+    if request.json["newStatus"] == "active" and data["session"]["active"]:
+        return "UERROR: Session is already active. Please refresh."
+    if request.json["newStatus"] == "inactive" and not data["session"]["active"]:
+        return "UERROR: Session is already inactive. Please refresh."
+    
+    ## Success
+    newStatus = request.json["newStatus"] == "active"
+    data["session"]["active"] = newStatus
+    if newStatus:
+        data["session"]["activationDatetime"] = datetime.datetime.now().strftime(Universal.datetimeFormat)
+    saveToFile(data)
+
+    return "SUCCESS: Q&A session status updated."
+
 @app.route("/api/getQuestionAnswerSessionStatus", methods=['POST'])
 def getQuestionAnswerSessionStatus():
     global data
@@ -244,4 +244,8 @@ def getQuestionAnswerSessionStatus():
         return "ERROR: Invalid token."
     
     ## Success
-    return jsonify(data['session'])
+    response = copy.deepcopy(data['session'])
+    response['activationDatetime'] = Universal.generateReadableDatetime(response['activationDatetime'])
+    response['unansweredQuestions'] = len([x for x in data['questions'] if data['questions'][x]['status'] == 'unanswered'])
+    response['answeredQuestions'] = len([x for x in data['questions'] if data['questions'][x]['status'] == 'answered'])
+    return jsonify(response)

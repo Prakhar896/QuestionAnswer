@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,28 +36,45 @@
             stroke-dashoffset: 15px;
         }
 
+        /* #sessionStatusLabel {
+            font-size: 1.2em;
+        } */
+
         .inlineButton {
             display: inline-block;
         }
+
+        #statusLabel {
+            visibility: hidden;
+        }
     </style>
 </head>
+
 <body>
     <h1>Admin Panel</h1>
-    <button id="refreshStatusButton" onclick="refreshStatus()" class="fancyButtons">Refresh Status</button>
+    <button id="refreshStatusButton" onclick="refreshData()" class="fancyButtons">Refresh Data</button>
+    <a href="{{ url_for('logout', token=token) }}"><button id="logoutLink" class="fancyButtons inlineButton">Logout</button></a>
     <br>
     <br>
-    {% if sessionActive %}
-    <p id="sessionStatusLabel">Current Q&A Session: <strong>Active (Activated at {{ sessionActivationDatetime }})</strong></p>
-    <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">De-activate</button>
-    {% else %}
-    <p id="sessionStatusLabel">Current Q&A Session: <strong>Inactive</strong></p>
-    <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">Activate</button>
-    {% endif %}
     <br>
-    <a href="{{ url_for('unansweredPage', token=token) }}"><p>Number of unanswered questions: {{ numUnanswered }}</p></a>
-    <a href="{{ url_for('answeredPage', token=token) }}"><p>Number of answered questions: {{ numAnswered }}</p></a>
+    <h3 id="statusLabel">Processing...</h3>
+    <br>
+    <div id="sessionStatusDiv">
+        {% if sessionActive %}
+        <p id="sessionStatusLabel" class="inlineButton">Current Q&A Session: <strong>Active (Activated at {{ sessionActivationDatetime }})</strong></p>&nbsp;&nbsp;&nbsp;
+        <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">De-activate</button>
+        {% else %}
+        <p id="sessionStatusLabel" class="inlineButton">Current Q&A Session: <strong>Inactive</strong></p>&nbsp;&nbsp;&nbsp;
+        <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">Activate</button>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    <a href="{{ url_for('unansweredPage', token=token) }}"><p id="numUnansweredLabel">Number of unanswered questions: {{ numUnanswered }}</p></a>
+    <a href="{{ url_for('answeredPage', token=token) }}"><p id="numAnsweredLabel">Number of answered questions: {{ numAnswered }}</p></a>
     <button onclick="deleteAll()" id="deleteAllButton" class="fancyButtons inlineButton">Delete All Questions</button>
 
     <script src="/assets/adminJS"></script>
 </body>
+
 </html>
