@@ -16,10 +16,18 @@ if not os.path.isfile(os.path.join(os.getcwd(), "data.txt")):
     with open("data.txt", "w") as f:
         json.dump({
             "loggedInToken": None,
+            "session": {
+                "active": False,
+                "activationDatetime": "Not Available"
+            },
             "questions": {}
         }, f)
         data = {
             "loggedInToken": None,
+            "session": {
+                "active": False,
+                "activationDatetime": "Not Available"
+            },
             "questions": {}
         }
 else:

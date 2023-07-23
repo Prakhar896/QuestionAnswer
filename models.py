@@ -36,3 +36,6 @@ def generateQuestionID(thatIsNotIn=None):
             id += alphanum[random.randint(0, len(alphanum) - 1)]
     
     return id
+
+class Universal:
+    datetimeFormat = "%Y-%m-%d %H:%M:%S"
