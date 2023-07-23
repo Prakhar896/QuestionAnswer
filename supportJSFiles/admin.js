@@ -47,7 +47,7 @@ function refreshData(fromCodeSource = false) {
                     }
                 } else {
                     var status = response.data['active']
-                    console.log(status)
+                    sessionIsActive = status
                     if (status) {
                         status = `Active (Activated at ${response.data['activationDatetime']})`
                         manageStatusButton.innerText = 'De-activate'
