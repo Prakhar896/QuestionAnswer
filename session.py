@@ -17,3 +17,12 @@ def answeredPage(token):
         return redirect(url_for("unauthorised"))
     
     return render_template("answered.html", token=token)
+
+@app.route("/session/<token>/admin")
+def adminPage(token):
+    global data
+
+    if token != data["loggedInToken"]:
+        return redirect(url_for("unauthorised"))
+    
+    return render_template("admin.html", token=token)

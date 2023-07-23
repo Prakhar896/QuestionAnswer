@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Answered | NYP AI Q&A Server</title>
+    <title>Admin Panel | NYP AI Q&A Server</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         body {
@@ -35,32 +35,26 @@
             stroke-dashoffset: 15px;
         }
 
-        #questionsDiv {
-            text-align: left;
-            margin-left: 20px;
-        }
-
-        #noQuestions {
-            text-align: center;
-        }
-        
         .inlineButton {
             display: inline-block;
         }
     </style>
 </head>
 <body>
-    <h1>Answered</h1>
-    <p><a href="unanswered">View Unanswered</a> · <a id="adminPanelLink" href="{{ url_for('admin', token=token) }}">Admin Panel</a> · <a id="logoutLink" href="{{ url_for('logout', token=token) }}">Logout</a></p>
-    <button onclick="toggleLiveRefresh()" id="liveRefreshToggleButton" class="fancyButtons">Stop Live Refresh</button>
-    <button onclick="deleteAll()" id="deleteAllButton" class="fancyButtons inlineButton">Delete All</button>
+    <h1>Admin Panel</h1>
+    <button id="refreshStatusButton" onclick="refreshStatus()" class="fancyButtons">Refresh Status</button>
     <br>
     <br>
+    {% if sessionActive %}
+    <p id="sessionStatusLabel">Current Q&A Session: <strong>Active (Activated at {{ sessionActivationDatetime }})</strong></p>
+    <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">De-activate</button>
+    {% else %}
+    <p id="sessionStatusLabel">Current Q&A Session: <strong>Inactive</strong></p>
+    <button id="manageStatusButton" onclick="toggleSessionStatus()" class="fancyButtons inlineButton">Activate</button>
+    {% endif %}
     <br>
-    <div id="questionsDiv">
-        <p id="noQuestions">No answered questions at the moment.</p>
-    </div>
-
-    <script src="/assets/answeredJS"></script>
+    <a href="{{ url_for('unansweredPage', token=token) }}"><p>Number of unanswered questions: {{ numUnanswered }}</p></a>
+    <a href="{{ url_for('answeredPage', token=token) }}"><p>Number of answered questions: {{ numAnswered }}</p></a>
+    <button onclick="deleteAll()" id="deleteAllButton" class="fancyButtons inlineButton">Delete All Questions</button>
 </body>
 </html>
