@@ -55,6 +55,7 @@
 
 <body>
     <img src="/assets/NYPAILogo" height="150px">
+    {% if sessionIsActive %}
     <h1 id="heading">Ask a Question</h1>
     <br>
     <div id="mainContent">
@@ -68,6 +69,14 @@
         <br>
     </div>
     <button onclick="ask()" class="fancyButtons" id="askButton">Ask</button>
+    {% else %}
+    <h1 id="heading">Q&A Session Not Active</h1>
+    <p>The admin or moderator has not activated the Q&A session yet. Please wait for the moderator to allow questions to be asked and then refresh this page.</p>
+    <p>Thank you for your patience and understanding.</p>
+    <br>
+    <br>
+    <button onclick="location.reload()" class="fancyButtons" id="askButton">Refresh Page</button></a>
+    {% endif %}
     <br>
     <br>
     <script src="/assets/copyright"></script>

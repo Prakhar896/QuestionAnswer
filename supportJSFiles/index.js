@@ -31,7 +31,7 @@ function login() {
 
                         const loggedInToken = response.data.substring("SUCCESS: Logged in; Token: ".length)
 
-                        location.href = `/session/${loggedInToken}/unanswered`
+                        location.href = `/session/${loggedInToken}/admin`
                     } else {
                         alert("Unknown response received from server. Please try again.")
                         console.log("Unknown response received; response: " + response.data)

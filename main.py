@@ -40,7 +40,7 @@ def homepage():
 
 @app.route("/ask")
 def ask():
-    return render_template("ask.html")
+    return render_template("ask.html", sessionIsActive=data['session']['active'])
 
 @app.route("/logout")
 def logout():

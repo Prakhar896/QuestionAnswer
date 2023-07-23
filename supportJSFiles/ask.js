@@ -38,14 +38,19 @@ function ask() {
         .then(response => {
             if (response.status == 200) {
                 if (!response.data.startsWith("ERROR")) {
-                    if (response.data.startsWith("SUCCESS")) {
-                        heading.innerText = 'Your question was submitted!'
-                        askButton.innerText = 'Ask Again'
-                        mainContentDiv.parentElement.removeChild(mainContentDiv)
-                        submitted = true
+                    if (!response.data.startsWith("UERROR")) {
+                        if (response.data.startsWith("SUCCESS")) {
+                            heading.innerText = 'Your question was submitted!'
+                            askButton.innerText = 'Ask Again'
+                            mainContentDiv.parentElement.removeChild(mainContentDiv)
+                            submitted = true
+                        } else {
+                            alert("Something went wrong. Please try again.")
+                            console.log("Unknown response received from servers; response: " + response.data)
+                        }
                     } else {
-                        alert("Something went wrong. Please try again.")
-                        console.log("Unknown response received from servers; response: " + response.data)
+                        alert("The admin has disabled the Q&A session. The web page will reload. Please try again later.")
+                        location.reload()
                     }
                 } else {
                     alert("An error occurred. Please try again.")
