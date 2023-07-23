@@ -51,7 +51,7 @@
 </head>
 <body>
     <h1>Answered</h1>
-    <p><a href="unanswered">View Unanswered</a> · <a id="adminPanelLink" href="{{ url_for('admin', token=token) }}">Admin Panel</a> · <a id="logoutLink" href="{{ url_for('logout', token=token) }}">Logout</a></p>
+    <p><a href="unanswered">View Unanswered</a> · <a id="adminPanelLink" href="{{ url_for('adminPage', token=token) }}">Admin Panel</a> · <a id="logoutLink" href="{{ url_for('logout', token=token) }}">Logout</a></p>
     <button onclick="toggleLiveRefresh()" id="liveRefreshToggleButton" class="fancyButtons">Stop Live Refresh</button>
     <button onclick="deleteAll()" id="deleteAllButton" class="fancyButtons inlineButton">Delete All</button>
     <br>

@@ -23,3 +23,7 @@ def answeredJS():
 @app.route("/assets/askJS")
 def askJS():
     return fileContent("supportJSFiles/ask.js", passAPIKey=True)
+
+@app.route("/assets/adminJS")
+def adminJS():
+    return fileContent("supportJSFiles/admin.js", passAPIKey=True)

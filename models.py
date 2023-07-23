@@ -39,3 +39,7 @@ def generateQuestionID(thatIsNotIn=None):
 
 class Universal:
     datetimeFormat = "%Y-%m-%d %H:%M:%S"
+
+    @staticmethod
+    def generateReadableDatetime(formattedString):
+        return formattedString + " GMT" + str(datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%z"))[0:3]

@@ -56,5 +56,7 @@
     <a href="{{ url_for('unansweredPage', token=token) }}"><p>Number of unanswered questions: {{ numUnanswered }}</p></a>
     <a href="{{ url_for('answeredPage', token=token) }}"><p>Number of answered questions: {{ numAnswered }}</p></a>
     <button onclick="deleteAll()" id="deleteAllButton" class="fancyButtons inlineButton">Delete All Questions</button>
+
+    <script src="/assets/adminJS"></script>
 </body>
 </html>
