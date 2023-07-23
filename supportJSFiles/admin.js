@@ -131,6 +131,12 @@ function toggleSessionStatus() {
                     console.log("User error occurred in updating session status; response: " + response.data)
                 }
             } else {
+                if (response.data == "ERROR: Invalid token.") {
+                    alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                    location.href = origin
+                    return
+                }
+
                 alert("Something went wrong. Please try again.")
                 console.log("Error response received from servers in updating session status; response: " + response.data)
                 statusLabel.style.visibility = 'hidden'
@@ -189,6 +195,12 @@ function deleteAll() {
                         statusLabel.style.visibility = 'hidden'
                     }
                 } else {
+                    if (response.data == "ERROR: Invalid token.") {
+                        alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                        location.href = origin
+                        return
+                    }
+
                     alert("An error occurred in deleting all questions. Please try again.")
                     console.log(`Error in deleting all questions; response: ${response.data}`)
                     statusLabel.style.visibility = 'hidden'

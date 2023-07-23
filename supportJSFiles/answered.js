@@ -96,6 +96,12 @@ function questionUnanswered(element) {
                         console.log("Unknown response received; response: " + response.data)
                     }
                 } else {
+                    if (response.data == "ERROR: Invalid token.") {
+                        alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                        location.href = origin
+                        return
+                    }
+
                     alert("An error occurred. Please try again.")
                     console.log("Error occurred in marking as unanswered; response: " + response.data)
                 }
@@ -139,6 +145,12 @@ function deleteQuestion(element) {
                         console.log(`Unknown response received from servers in deleting question with ID ${questionID}; response: ${response.data}`)
                     }
                 } else {
+                    if (response.data == "ERROR: Invalid token.") {
+                        alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                        location.href = origin
+                        return
+                    }
+
                     alert("An error occurred in deleting the question. Please try again.")
                     console.log(`Error in deleting question with ID ${questionID}; response: ${response.data}`)
                 }
@@ -182,6 +194,12 @@ function deleteAll() {
                         console.log(`Unknown response received from servers in deleting all answered questions; response: ${response.data}`)
                     }
                 } else {
+                    if (response.data == "ERROR: Invalid token.") {
+                        alert("Your authentication token seems to be invalid. You will be re-directed for re-login.")
+                        location.href = origin
+                        return
+                    }
+
                     alert("An error occurred in deleting all answered questions. Please try again.")
                     console.log(`Error in deleting all answered questions; response: ${response.data}`)
                 }
