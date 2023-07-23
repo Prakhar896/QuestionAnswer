@@ -204,6 +204,8 @@ def toggleQuestionAnswerSession():
     ## Check body
     if "token" not in request.json:
         return "ERROR: Token not present in request body."
+    if request.json['token'] != data['loggedInToken']:
+        return "ERROR: Invalid token."
     if "newStatus" not in request.json:
         return "ERROR: New status not present in request body."
     if request.json["newStatus"] not in ["active", "inactive"]:
