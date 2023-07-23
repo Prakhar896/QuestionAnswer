@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout | NYP AI Q&A Server</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 150px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .fancyButtons {
+            border: none;
+            color: white;
+            padding: 14px 18px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            margin: 4px 2px;
+            transition-duration: 0.5s;
+            cursor: pointer;
+            background-color: darkslategray;
+            border-radius: 10px;
+        }
+
+        .fancyButtons:hover {
+            background-color: #000000;
+            color: white;
+            stroke: green;
+            stroke-width: 3px;
+            stroke-dashoffset: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Before you go...</h1>
+    <p>We detected that you have left a Q&A session active. Active Q&A sessions mean that people can continuously send in questions even after your event or seminar.</p>
+    <p>Would you like to de-activate your session before you logout?</p>
+    <br>
+    <br>
+    <a href="{{ url_for('logout', token=token, deactivateSession='true') }}"><button class="fancyButtons">Yes, deactivate the session</button></a>
+    <a href="{{ url_for('logout', token=token, deactivateSession='false') }}"><button class="fancyButtons">No, logout without deactivating</button></a>
+    <br>
+    <br>
+    <script src="/assets/copyright"></script>
+</body>
+</html>

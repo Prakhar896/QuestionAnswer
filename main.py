@@ -50,7 +50,12 @@ def logout():
     if request.args['token'] != data['loggedInToken']:
         flash("Invalid token.")
         return redirect(url_for("error"))
-    
+    if data["session"]["active"]:
+        if "deactivateSession" not in request.args:
+            return render_template("logout.html", token=request.args['token'])
+        elif request.args["deactivateSession"] == "true":
+            data["session"]["active"] = False
+
     data['loggedInToken'] = None
     saveToFile(data)
     return redirect(url_for("homepage"))
