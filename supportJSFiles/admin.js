@@ -9,8 +9,8 @@ const statusLabel = document.getElementById("statusLabel")
 const token = location.pathname.split("/")[2]
 var sessionIsActive = manageStatusButton.innerText != "Activate"
 
-function refreshData(fromSessionToggleAction = false) {
-    if (!fromSessionToggleAction) {
+function refreshData(fromCodeSource = false) {
+    if (!fromCodeSource) {
         statusLabel.innerText = "Refreshing..."
         statusLabel.style.visibility = 'visible'
     }
@@ -118,7 +118,7 @@ function toggleSessionStatus() {
                         statusLabel.innerText = 'Session status updated! Refreshing data...'
                         statusLabel.style.visibility = 'visible'
                         setTimeout(() => {
-                            refreshData(fromSessionToggleAction=true)
+                            refreshData(fromCodeSource=true)
                         }, 800)
                     } else {
                         alert("Something went wrong. Please try again.")
@@ -146,4 +146,62 @@ function toggleSessionStatus() {
         console.log("Error in connecting to servers to update session status; error: " + error)
         statusLabel.style.visibility = 'hidden'
     })
+}
+
+function deleteAll() {
+    const numUnanswered = parseInt(numUnansweredLabel.innerText.substring("Number of unanswered questions: ".length))
+    const numAnswered = parseInt(numAnsweredLabel.innerText.substring("Number of answered questions: ".length))
+    if (numUnanswered == 0 && numAnswered == 0) {
+        alert("There are no questions to delete.")
+        return
+    }
+
+    if (!confirm(`Are you sure you would like to delete ALL questions?`)) {
+        return
+    }
+
+    statusLabel.innerText = "Deleting all questions..."
+    statusLabel.style.visibility = 'visible'
+
+    axios({
+        method: 'post',
+        url: `${origin}/api/deleteQuestion`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Key': "\{{ API_KEY }}"
+        },
+        data: {
+            'token': token,
+            'bundleType': 'all'
+        }
+    })
+        .then(response => {
+            if (response.status == 200) {
+                if (!response.data.startsWith("ERROR")) {
+                    if (response.data.startsWith("SUCCESS")) {
+                        statusLabel.innerText = 'All questions deleted! Refreshing data...'
+                        setTimeout(() => {
+                            refreshData(fromCodeSource=true)
+                        }, 800)
+                    } else {
+                        alert("Something went wrong. Please try again.")
+                        console.log(`Unknown response received from servers in deleting all questions; response: ${response.data}`)
+                        statusLabel.style.visibility = 'hidden'
+                    }
+                } else {
+                    alert("An error occurred in deleting all questions. Please try again.")
+                    console.log(`Error in deleting all questions; response: ${response.data}`)
+                    statusLabel.style.visibility = 'hidden'
+                }
+            } else {
+                alert("Something went wrong. Please try again.")
+                console.log(`Non-200 status code response received from server in deleting all questions; response: ${response.data}`)
+                statusLabel.style.visibility = 'hidden'
+            }
+        })
+        .catch(error => {
+            alert("Failed to connect to delete all questions. Please try again.")
+            console.log(`Error in connecting to servers to delete all questions; error: ${error}`)
+            statusLabel.style.visibility = 'hidden'
+        })
 }

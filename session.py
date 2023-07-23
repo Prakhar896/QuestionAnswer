@@ -29,7 +29,7 @@ def adminPage(token):
         "admin.html", 
         token=token, 
         sessionActive=data["session"]["active"], 
-        sessionActivationDatetime=data["session"]["activationDatetime"], 
+        sessionActivationDatetime=Universal.generateReadableDatetime(data["session"]["activationDatetime"]), 
         numAnswered=len([x for x in data["questions"] if data["questions"][x]["status"] == "answered"]), 
         numUnanswered=len([x for x in data["questions"] if data["questions"][x]["status"] == "unanswered"])
         )
