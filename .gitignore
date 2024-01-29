@@ -3,3 +3,4 @@ virt/
 __pycache__/
 venev/
 data.txt
+.DS_Store
